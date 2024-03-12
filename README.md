@@ -3,9 +3,15 @@ project name - What to Wear 15 (WTWR)
 project description - This project is the back end to a front-end app called WTWR. It will store user data and information about their preferred clothing items for weather conditions.
 
 ## Deployed Sever
-Website - https://triple10p15.jumpingcrab.com
-Front End URL - https://www.triple10p15.jumpingcrab.com	
-Backend URL - https://api.triple10p15.jumpingcrab.com
+
+### Website
+https://triple10p15.jumpingcrab.com
+
+### Frontend
+https://www.triple10p15.jumpingcrab.com	
+
+### Backend
+https://api.triple10p15.jumpingcrab.com
 
 ## Running the Project
 

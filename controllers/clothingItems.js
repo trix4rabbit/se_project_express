@@ -27,6 +27,7 @@ const getItems = (req, res, next) => {
   ClothingItem.find({})
     .then((items) => res.send(items))
     .catch((err) => {
+      console.error(err);
       next(err);
     });
 };
@@ -37,12 +38,11 @@ const deleteItem = (req, res, next) => {
 
   ClothingItem.findOne({ _id: itemId })
     .then((item) => {
-      if (!item) {
-        next(new NotFoundError("Item not found"));
-      }
-      if (item.owner.toHexString() !== userId) {
-        next(new ForbiddenError("You are not the owner of this item"));
-      }
+      if (!item) 
+        throw new NotFoundError("Item not found");
+      if (String(item.owner) !== req.user._id) 
+        throw new ForbiddenError("You are not authorized to delete this item." );
+      
       ClothingItem.deleteOne({ _id: itemId, owner: userId }).then(() => {
         res.send({ message: "Item deleted" });
       });
@@ -52,7 +52,7 @@ const deleteItem = (req, res, next) => {
     .catch((err) => {
       if (err.message === "Item not found") {
         next(new NotFoundError(err.message));
-      } else if (err.message === "You are not the owner of this item") {
+      } else if (err.message === "You are not authorized to delete this item." ) {
         next(new ForbiddenError(err.message));
       } else if (err.name === "CastError") {
         next(new BadRequestError("The id string is in an invalid format"));

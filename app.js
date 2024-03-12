@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const routes = require("./routes");
 
 // Sprint 15.1. Create New Middleware
 const errorHandler = require("./middlewares/errorHandler");
@@ -11,6 +10,9 @@ const errorHandler = require("./middlewares/errorHandler");
 const { errors } = require("celebrate");
 // Sprint 15.3. Logger
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+
+// celebrate needed to be imported before routes
+const routes = require("./routes");
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -26,6 +28,8 @@ mongoose.connect(
 );
 
 app.use(express.json());
+
+// Sprint 15.3. Logger
 app.use(requestLogger);
 
 // 1. Set up server crash testing
@@ -35,8 +39,6 @@ app.get("/crash-test", () => {
   }, 0);
 });
 
-// Sprint 15.3. Logger
-app.use(requestLogger);
 app.use(routes);
 app.use(errorLogger);
 
